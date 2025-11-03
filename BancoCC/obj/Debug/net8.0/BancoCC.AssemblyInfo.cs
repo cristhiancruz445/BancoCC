@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BancoCC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6631354165c28b0a822f23e4fab4bf97c354701c")]
 [assembly: System.Reflection.AssemblyProductAttribute("BancoCC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BancoCC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -7,7 +7,7 @@ namespace BancoCC
     {
        public static void Main(string[] args)
         {
-            Login.MostrarTelaLogin();
+            Login.TemConta();
         }
     }
 }
