@@ -34,8 +34,7 @@
               "RelativeToolTip": "BancoCC\\TelaInicial.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T23:39:48.17Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-03T23:39:48.17Z"
             },
             {
               "$type": "Document",
@@ -45,7 +44,7 @@
               "RelativeDocumentMoniker": "BancoCC\\Login.cs",
               "ToolTip": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\Login.cs",
               "RelativeToolTip": "BancoCC\\Login.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAiwCEAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAiwCAAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-29T23:31:15.911Z",
               "EditorCaption": ""
@@ -60,8 +59,7 @@
               "RelativeToolTip": "BancoCC\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T23:25:33.924Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T23:25:33.924Z"
             }
           ]
         }
