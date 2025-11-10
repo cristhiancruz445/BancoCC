@@ -25,7 +25,7 @@ namespace BancoCC
             if(ValidarUsuario(usuario, senha, int.Parse(numeroConta)))
             {
                 Console.WriteLine("Login realizado com sucesso!");
-                // Prosseguir para a próxima etapa do sistema bancário
+                TelaInicial.MostrarTelaInicial(int.Parse(numeroConta));
             }
             else
             {
