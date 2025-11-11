@@ -31,7 +31,7 @@ namespace BancoCC
             {
                 case 0: Environment.Exit(0); break;
                 case 1: ContaVerSaldo(numeroContaLogado); break;
-                //case 2:ContaDepositar(); break;
+                case 2: ContaDepositar(numeroContaLogado); break;
                 //case 3:ContaSacar(); break;
                 //case 4:ContaExtrato(); break;
                 //case 5:ContaTransferir(); break;
@@ -69,10 +69,14 @@ namespace BancoCC
                         {
                             decimal saldo = Convert.ToDecimal(resultado);
                             Console.WriteLine($"Seu saldo atual é: R$ {saldo:F2}");
+                            Thread.Sleep(2000);
+                            TelaInicial.MostrarTelaInicial(numeroContaLogado);
                         }
                         else
                         {
                             Console.WriteLine("Conta não encontrada.");
+                            Thread.Sleep(2000);
+                            TelaInicial.MostrarTelaInicial(numeroContaLogado);
                         }
                     }
                 }
@@ -85,6 +89,66 @@ namespace BancoCC
             {
                 Console.WriteLine($"Erro geral ao obter saldo: {ex.Message}");
 
+            }
+        }
+        public static void ContaDepositar(int numeroContaLogado)
+        {
+            Console.Clear();
+            Console.WriteLine("---Depositar---");
+            Console.Write("Digite o valor a ser depositado: ");
+            Decimal valorDeposito = Decimal.Parse(Console.ReadLine());
+
+            if (valorDeposito <= 0)
+            {
+                Console.WriteLine("Valor inválido. O depósito deve ser maior que zero.");
+                System.Threading.Thread.Sleep(2000);
+                MostrarTelaInicial(numeroContaLogado);
+                return;
+            }
+            else
+            {
+                RealizarDeposito(numeroContaLogado, valorDeposito);
+            }
+
+        }
+        public static void RealizarDeposito(int numeroContaLogado, decimal valorDeposito)
+        {
+            
+            string conexaoString = "server=localhost;user=root;password=25127809Joci;database=bancocc";
+            string consulta = "UPDATE usuario SET saldo = saldo + @valorDeposito WHERE numero_conta = @numeroConta";
+
+            try
+            {
+                using (MySqlConnection conexao = new MySqlConnection(conexaoString))
+                {
+                    conexao.Open();
+                    { using (MySqlCommand atualizarSaldo = new MySqlCommand(consulta, conexao))
+                    {
+                            atualizarSaldo.Parameters.AddWithValue("@numeroConta", numeroContaLogado);
+                            atualizarSaldo.Parameters.AddWithValue("@valorDeposito", valorDeposito);
+                            
+                            int linhasAfetadas = atualizarSaldo.ExecuteNonQuery();
+
+                            if (linhasAfetadas > 0)
+                            {
+                                Console.WriteLine("Depósito realizado com sucesso!");
+                                ObterSaldo(numeroContaLogado);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Conta não encontrada. Depósito não realizado.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine($"Erro de MySql ao realizar depósito: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro geral ao realizar depósito: {ex.Message}");
             }
         }
     }
