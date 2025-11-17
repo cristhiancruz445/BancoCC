@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using Org.BouncyCastle.Bcpg;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,8 @@ namespace BancoCC
                 case 1: ContaVerSaldo(numeroContaLogado); break;
                 case 2: ContaDepositar(numeroContaLogado); break;
                 case 3: ContaSacar(numeroContaLogado); break;
-                case 4:ContaExtrato(numeroContaLogado); break;
-                //case 5:ContaTransferir(); break;
+                case 4: ContaExtrato(numeroContaLogado); break;
+                case 5: ContaTransferir(numeroContaLogado); break;
 
                 default:
                     Console.WriteLine("---Opção inválida. Tente novamente---");
@@ -69,7 +70,8 @@ namespace BancoCC
             else
             {
                 Console.WriteLine("Conta não encontrada.");
-            };
+            }
+            ;
             Console.WriteLine("\nPressione qualquer tecla para voltar ao menu principal");
             Console.ReadKey();
             MostrarTelaInicial(numeroContaLogado);
@@ -92,7 +94,7 @@ namespace BancoCC
             {
                 RealizarDeposito(numeroContaLogado, valorDeposito);
             }
-            
+
 
         }
         public static void RealizarDeposito(int numeroContaLogado, decimal valorDeposito)
@@ -116,7 +118,7 @@ namespace BancoCC
                 Thread.Sleep(2000);
                 TelaInicial.ContaDepositar(numeroContaLogado);
             }
-            
+
         }
         public static void ContaSacar(int numeroContaLogado)
         {
@@ -187,7 +189,7 @@ namespace BancoCC
                     string tipo = reader.GetString("tipo");
                     decimal valor = reader.GetDecimal("valor");
 
-                    if (valor > 0) 
+                    if (valor > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"{dataTransacao.ToString("dd/MM/yyyy HH:mm")} - {tipo,-15} R$ {valor,10:F2}");
@@ -223,4 +225,124 @@ namespace BancoCC
 
             });
         }
-    } }
+        public static void ContaTransferir(int numeroContaLogado)
+        {
+            Console.Clear();
+            Console.WriteLine("---Transferência---");
+
+            Console.Write("\nDigite o NÚMERO da conta de destino: ");
+            if (!int.TryParse(Console.ReadLine(), out int contaDestino))
+            {
+                Console.WriteLine("\nNúmero de conta inválido.");
+                Thread.Sleep(2000);
+                MostrarTelaInicial(numeroContaLogado);
+                return;
+            }
+
+            Console.Write("Digite o VALOR da transferência: R$ ");
+            if (!decimal.TryParse(Console.ReadLine(), out decimal valor))
+            {
+                Console.WriteLine("\nValor inválido.");
+                Thread.Sleep(2000);
+                MostrarTelaInicial(numeroContaLogado);
+                return;
+            }
+
+            bool sucesso = RealizarTransferencia(numeroContaLogado, contaDestino, valor);
+
+            if (sucesso)
+            {
+                Console.WriteLine("\nTransferência realizada com sucesso!");
+                ObterSaldo(numeroContaLogado);
+            }
+            else
+            {
+                Console.WriteLine("\nPressione qualquer tecla para voltar...");
+                Console.ReadKey();
+                MostrarTelaInicial(numeroContaLogado);
+            }
+        }
+        public static bool RealizarTransferencia(int numeroContaOrigem, int numeroContaDestino, decimal valor)
+        {
+            if (numeroContaOrigem == numeroContaDestino)
+            {
+                Console.WriteLine("Erro: Não é possível transferir para a mesma conta.");
+                return false;
+            }
+            if (valor <= 0)
+            {
+                Console.WriteLine("Erro: O valor da transferência deve ser maior que zero.");
+                return false;
+            }
+
+            string connectionString = "server=localhost;user=root;password=25127809Joci;database=bancocc";
+
+            using (var conexao = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conexao.Open();
+                    using (var transacao = conexao.BeginTransaction())
+                    {
+                        int linhasAfetadasDebito = 0;
+                        string comandoDebito = "UPDATE usuario set saldo = saldo - @valor WHERE numero_conta = @contaOrigem AND Saldo >= @valor;";
+
+                        using (var cmdDebito = new MySqlCommand(comandoDebito, conexao, transacao))
+                        {
+                            cmdDebito.Parameters.AddWithValue("@Valor", valor);
+                            cmdDebito.Parameters.AddWithValue("@contaOrigem", numeroContaOrigem);
+                            linhasAfetadasDebito = cmdDebito.ExecuteNonQuery();
+                        }
+
+                        if (linhasAfetadasDebito == 0)
+                        {
+                            Console.WriteLine("Erro: Saldo insuficiente ou conta de origem inválida.");
+                            transacao.Rollback();
+                            return false;
+                        }
+
+                        string comandoCredito = "UPDATE usuario set saldo = saldo + @valor WHERE numero_conta = @contaDestino;";
+                        int linhasAfetadasCredito = 0;
+
+                        using (var cmdCredito = new MySqlCommand(comandoCredito, conexao, transacao))
+                        {
+                            cmdCredito.Parameters.AddWithValue("@Valor", valor);
+                            cmdCredito.Parameters.AddWithValue("@contaDestino", numeroContaDestino);
+                            linhasAfetadasCredito = cmdCredito.ExecuteNonQuery();
+                        }
+
+                        if (linhasAfetadasCredito == 0)
+                        {
+                            Console.WriteLine("Erro: Conta de destino inválida.");
+                            transacao.Rollback();
+                            return false;
+                        }
+
+                        RegistrarTransacaoTransacional(numeroContaOrigem, "Transferência Enviada", -valor, conexao, transacao);
+                        RegistrarTransacaoTransacional(numeroContaDestino, "Transferência Recebida", valor, conexao, transacao);
+
+                        transacao.Commit();
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Erro crítico ao realizar a transferência: " + ex.Message);
+                    return false;
+                }
+            } 
+        }
+        private static void RegistrarTransacaoTransacional(int numeroConta, string tipo, decimal valor, MySqlConnection conexao, MySqlTransaction transacao)
+        {
+            string comando = "INSERT INTO transacoes (numero_conta, tipo, valor, data_transacao) values (@numeroConta, @tipo, @valor, NOW())";
+
+            using (var cmd = new MySqlCommand(comando, conexao, transacao))
+            {
+                cmd.Parameters.AddWithValue("@numeroConta", numeroConta);
+                cmd.Parameters.AddWithValue("@tipo", tipo);
+                cmd.Parameters.AddWithValue("@valor", valor);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+}
