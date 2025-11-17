@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{CCAAE411-3E0E-4CDA-AA40-1571FACA3B28}|BancoCC\\BancoCC.csproj|solutionrelative:bancocc\\telainicial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{CCAAE411-3E0E-4CDA-AA40-1571FACA3B28}|BancoCC\\BancoCC.csproj|c:\\users\\crist\\source\\repos\\bancocc\\bancocc\\conect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CCAAE411-3E0E-4CDA-AA40-1571FACA3B28}|BancoCC\\BancoCC.csproj|solutionrelative:bancocc\\conect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CCAAE411-3E0E-4CDA-AA40-1571FACA3B28}|BancoCC\\BancoCC.csproj|c:\\users\\crist\\source\\repos\\bancocc\\bancocc\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CCAAE411-3E0E-4CDA-AA40-1571FACA3B28}|BancoCC\\BancoCC.csproj|solutionrelative:bancocc\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -22,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Conect.cs",
+              "DocumentMoniker": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\Conect.cs",
+              "RelativeDocumentMoniker": "BancoCC\\Conect.cs",
+              "ToolTip": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\Conect.cs",
+              "RelativeToolTip": "BancoCC\\Conect.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADUAAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T20:43:28.324Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -32,27 +49,26 @@
               "RelativeDocumentMoniker": "BancoCC\\TelaInicial.cs",
               "ToolTip": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\TelaInicial.cs",
               "RelativeToolTip": "BancoCC\\TelaInicial.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAkwE4AAABOAAAAAAAAAA==",
+              "ViewState": "AgIAADEAAAAAAAAAAAAqwHwAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-03T23:39:48.17Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Login.cs",
               "DocumentMoniker": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\Login.cs",
               "RelativeDocumentMoniker": "BancoCC\\Login.cs",
               "ToolTip": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\Login.cs",
               "RelativeToolTip": "BancoCC\\Login.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAwwBsAAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAowBsAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T23:31:15.911Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T23:31:15.911Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\crist\\source\\repos\\BancoCC\\BancoCC\\Program.cs",
               "RelativeDocumentMoniker": "BancoCC\\Program.cs",
@@ -60,8 +76,7 @@
               "RelativeToolTip": "BancoCC\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T23:25:33.924Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T23:25:33.924Z"
             }
           ]
         }
