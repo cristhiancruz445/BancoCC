@@ -10,24 +10,34 @@ namespace BancoCC
     public class Conect
     {
         private string conexaoString = "server=localhost;user=root;password=25127809Joci;database=bancocc";
+        private MySqlConnection GetConnection()
+        {
+            return new MySqlConnection(conexaoString);
+        }
         public bool ExecutarComando(string sql, Action<MySqlCommand> parametros = null)
         {
-            using (MySqlConnection conexao = new MySqlConnection(conexaoString))
+            using (var conexao = GetConnection())
             {
-                try
+                using (var cmd = new MySqlCommand(sql, conexao))
                 {
-                    conexao.Open();
-                    using (MySqlCommand comando = new MySqlCommand(sql, conexao))
+                    // Adiciona os parâmetros passados pela função lambda
+                    if (parametros != null) parametros(cmd);
+
+                    try
                     {
-                        if (parametros != null) parametros(comando);
-                        comando.ExecuteNonQuery();
-                        return true;
+                        conexao.Open();
+                        // ExecuteNonQuery retorna o NÚMERO DE LINHAS AFETADAS
+                        int linhasAfetadas = cmd.ExecuteNonQuery();
+
+                        // --- ESTA É A CORREÇÃO ---
+                        // Retorna 'true' SOMENTE se 1 ou mais linhas mudaram.
+                        return linhasAfetadas > 0;
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Erro ao executar comando: " + ex.Message);
-                    return false;
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Erro no ExecutarComando: {ex.Message}");
+                        return false;
+                    }
                 }
             }
         }
